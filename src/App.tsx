@@ -3,8 +3,7 @@ import CommonLayout from "./components/layout/CommonLayout"
 
 function App() {
   return (
-    <div className="">
-      hello
+    <div>
       <CommonLayout>
         <Outlet />
       </CommonLayout>
