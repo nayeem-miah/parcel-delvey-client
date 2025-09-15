@@ -39,7 +39,8 @@ export function LoginForm() {
             console.log(userInfo);
         } catch (error: any) {
             console.log(error);
-            toast.error(error?.response?.data?.message)
+            toast.error(error?.response?.data?.message);
+            navigate("/")
         }
     }
 
@@ -66,7 +67,6 @@ export function LoginForm() {
                                         type="email"
                                         {...field} />
                                 </FormControl>
-                                <FormDescription>This is your email.</FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}
