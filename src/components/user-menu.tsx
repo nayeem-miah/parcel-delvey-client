@@ -2,6 +2,7 @@
 
 import {
   LogIn,
+  LogInIcon,
   LogOutIcon
 } from "lucide-react"
 
@@ -62,12 +63,20 @@ export default function UserMenu({ user }: any) {
               <span>Logout</span></Button>
           </DropdownMenuItem>
         ) : (
-          <Link to={'/login'} className="flex items-center gap-3">
-            <DropdownMenuItem>
-              <LogIn size={16} className="opacity-60" aria-hidden="true" />
-              <span>Login</span>
-            </DropdownMenuItem>
-          </Link>
+          <>
+            <Link to={'/login'} className="flex items-center gap-3">
+              <DropdownMenuItem>
+                <LogIn size={16} className="opacity-60" aria-hidden="true" />
+                <span>Login</span>
+              </DropdownMenuItem>
+            </Link>
+            <Link to={'/register'} className="flex items-center gap-3">
+              <DropdownMenuItem>
+                <LogInIcon size={16} className="opacity-60" aria-hidden="true" />
+                <span>register</span>
+              </DropdownMenuItem>
+            </Link>
+          </>
         )}
       </DropdownMenuContent>
     </DropdownMenu>
