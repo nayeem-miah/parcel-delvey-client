@@ -11,6 +11,7 @@ import { z } from "zod"
 import Password from "./Password"
 import { role } from "@/constants/role"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useRegisterMutation } from "@/redux/features/auth/authApi"
 
 
 
@@ -28,13 +29,18 @@ const registerSchema = z
         password: z.string().min(8, {
             message: "Password is too short minimum 8 character"
         }),
-        address: z.string(),
-        phone: z.string(),
+        address: z.string().optional(),
+        // phone: z.string()
+        //     .regex(/^(\+8801|8801|01)[0-9]{9}$/, {
+        //         message: "Invalid Bangladeshi phone number"
+        //     })
+        //     .optional(),
     })
 
 
 export function RegisterForm() {
     const navigate = useNavigate();
+    const [register, { isLoading }] = useRegisterMutation()
 
 
     const form = useForm<z.infer<typeof registerSchema>>({
@@ -44,7 +50,7 @@ export function RegisterForm() {
             email: "",
             role: role.SENDER || role.RECEIVER,
             password: "",
-            phone: "",
+            // phone: "",
             address: "",
 
         }
@@ -59,16 +65,23 @@ export function RegisterForm() {
             password: data.password,
             role: data.role,
             address: data.address,
-            phone: data.phone,
-
+            // phone: data.phone,
         }
 
+        const toastId = toast.loading("loading........")
         try {
-            console.log(userInfo);
+            const res = await register(userInfo).unwrap();
+
+            // console.log(res);
+            if (res.success) {
+                toast.success(res?.message, { id: toastId })
+                navigate("/")
+            }
+
+
         } catch (error: any) {
             console.log(error);
-            toast.error(error?.response?.data?.message)
-            navigate('/')
+            toast.error(error?.data?.message, { id: toastId })
         }
     }
 
@@ -190,7 +203,7 @@ export function RegisterForm() {
                                     <FormControl>
                                         <Input
                                             type="text"
-                                            placeholder="phone"
+                                            placeholder="01*********"
                                             {...field}
                                         />
                                     </FormControl>
@@ -208,7 +221,7 @@ export function RegisterForm() {
                                 Login
                             </Link>
                         </div>
-                        <Button type="submit" className="w-full">
+                        <Button type="submit" disabled={isLoading} className="w-full">
                             Sign up
                         </Button>
                     </form>
