@@ -19,22 +19,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/authApi"
+import { useAppDispatch } from "@/redux/hooks"
 import { Link } from "react-router"
 import { toast } from "sonner"
-import { useUserInfoQuery } from "@/redux/features/auth/authApi"
 
 export default function UserMenu() {
-  const { data } = useUserInfoQuery(undefined)
-  const user = data?.data
-  console.log(user);
+  const { data } = useUserInfoQuery(undefined);
+  const [logout] = useLogoutMutation();
+  const dispatch = useAppDispatch();
 
-  const logout = async () => {
+
+  const user = data?.data
+  // console.log(user);
+
+  const handleLogout = async () => {
     try {
-      toast.success("Logout success ✅")
-    } catch (error) {
-      console.log(error);
+      await logout(undefined).unwrap();
+      dispatch(authApi.util.resetApiState());
+      toast.success("Logout success ✅");
+      // console.log(res);
+    } catch (err) {
+      toast.error("Logout failed");
+      console.error(err);
     }
-  }
+  };
+
 
   return (
     <DropdownMenu>
@@ -80,7 +90,7 @@ export default function UserMenu() {
               <Button
                 variant="outline"
                 className="w-full flex justify-start gap-2"
-                onClick={logout}
+                onClick={handleLogout}
               >
                 <LogOutIcon size={16} className="opacity-70" />
                 Logout
