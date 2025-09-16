@@ -75,7 +75,7 @@ export function RegisterForm() {
             // console.log(res);
             if (res.success) {
                 toast.success(res?.message, { id: toastId })
-                navigate("/")
+                navigate("/login")
             }
 
 

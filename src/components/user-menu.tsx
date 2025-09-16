@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
   LogIn,
   LogInIcon,
-  LogOutIcon
+  LogOutIcon,
 } from "lucide-react"
 
 import {
@@ -21,14 +20,17 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { Link } from "react-router"
+import { toast } from "sonner"
+import { useUserInfoQuery } from "@/redux/features/auth/authApi"
 
-
-export default function UserMenu({ user }: any) {
+export default function UserMenu() {
+  const { data } = useUserInfoQuery(undefined)
+  const user = data?.data
+  console.log(user);
 
   const logout = async () => {
     try {
-
-      // toast.success("logout success")
+      toast.success("Logout success ✅")
     } catch (error) {
       console.log(error);
     }
@@ -36,46 +38,76 @@ export default function UserMenu({ user }: any) {
 
   return (
     <DropdownMenu>
+      {/* Trigger Button */}
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
-          <Avatar>
-            <AvatarImage src={user?.avatar || "./avatar.jpg"} alt="Profile image" />
-            <AvatarFallback>{user?.name?.[0] || "ME"}</AvatarFallback>
+        <Button
+          variant="ghost"
+          className="h-10 w-10 rounded-full p-0 hover:ring-2 hover:ring-primary transition-all"
+        >
+          <Avatar className="h-10 w-10">
+            <AvatarImage
+              src={user?.avatar || "./avatar.jpg"}
+              alt="Profile image"
+              className="object-cover"
+            />
+            <AvatarFallback className="bg-primary/10 text-primary">
+              {user?.name?.[0]?.toUpperCase() || "?"}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-w-64 p-2" align="end">
-        <DropdownMenuLabel className="flex min-w-0 flex-col">
-          <span className="text-foreground truncate text-sm font-medium">
-            {user?.name || "Guest"}
+
+      {/* Dropdown Content */}
+      <DropdownMenuContent
+        className="w-56 rounded-2xl shadow-lg p-2"
+        align="end"
+      >
+        {/* User Info */}
+        <DropdownMenuLabel className="flex flex-col gap-1">
+          <span className="text-sm font-semibold truncate">
+            {user?.name || "Guest User"}
           </span>
-          <span className="text-muted-foreground truncate text-xs font-normal">
+          <span className="text-xs text-muted-foreground truncate">
             {user?.email || "Not logged in"}
           </span>
         </DropdownMenuLabel>
+
         <DropdownMenuSeparator />
+
         {user ? (
-          <DropdownMenuItem>
-            <Button className="w-full"
-              onClick={logout}
-            >
-              <LogOutIcon size={16} className="opacity-60 " aria-hidden="true" />
-              <span>Logout</span></Button>
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem asChild>
+              <Button
+                variant="outline"
+                className="w-full flex justify-start gap-2"
+                onClick={logout}
+              >
+                <LogOutIcon size={16} className="opacity-70" />
+                Logout
+              </Button>
+            </DropdownMenuItem>
+          </>
         ) : (
           <>
-            <Link to={'/login'} className="flex items-center gap-3">
-              <DropdownMenuItem>
-                <LogIn size={16} className="opacity-60" aria-hidden="true" />
+            <DropdownMenuItem asChild>
+              <Link
+                to="/login"
+                className="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg hover:bg-accent transition"
+              >
+                <LogIn size={16} className="opacity-70" />
                 <span>Login</span>
-              </DropdownMenuItem>
-            </Link>
-            <Link to={'/register'} className="flex items-center gap-3">
-              <DropdownMenuItem>
-                <LogInIcon size={16} className="opacity-60" aria-hidden="true" />
-                <span>register</span>
-              </DropdownMenuItem>
-            </Link>
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild>
+              <Link
+                to="/register"
+                className="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg hover:bg-accent transition"
+              >
+                <LogInIcon size={16} className="opacity-70" />
+                <span>Register</span>
+              </Link>
+            </DropdownMenuItem>
           </>
         )}
       </DropdownMenuContent>

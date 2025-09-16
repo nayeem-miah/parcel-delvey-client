@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router"
 import { toast } from "sonner"
 import z from "zod"
 import Password from "./Password"
+import { useLoginMutation } from "@/redux/features/auth/authApi"
 
 
 const loginSchema = z.object({
@@ -22,6 +23,7 @@ const loginSchema = z.object({
 
 export function LoginForm() {
     const navigate = useNavigate();
+    const [login, { isLoading }] = useLoginMutation()
 
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
@@ -35,12 +37,19 @@ export function LoginForm() {
             email: data.email,
             password: data.password
         }
+        const toastId = toast.loading("loading.......")
         try {
-            console.log(userInfo);
+            const res = await login(userInfo).unwrap();
+
+            // console.log(res);
+            if (res.success) {
+                toast.success(res?.message, { id: toastId })
+                navigate("/")
+            }
         } catch (error: any) {
             console.log(error);
-            toast.error(error?.response?.data?.message);
-            navigate("/")
+            toast.error(error?.data?.message, { id: toastId });
+            // navigate("/")
         }
     }
 
@@ -92,7 +101,7 @@ export function LoginForm() {
                             Sign up
                         </Link>
                     </div>
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" disabled={isLoading} className="w-full">
                         login
                     </Button>
                 </form>
