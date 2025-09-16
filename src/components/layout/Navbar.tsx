@@ -1,4 +1,3 @@
-
 import Logo from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,154 +12,126 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import UserMenu from "@/components/user-menu"
-import { Link } from "react-router"
+import { Link, useLocation } from "react-router"
 import { ModeToggle } from "./mode-toggle"
-
-// Navigation links array to be used in both desktop and mobile menus
+import { useUserInfoQuery } from "@/redux/features/auth/authApi"
+import { role } from "@/constants/role"
+import clsx from "clsx"
 
 const navigationLinks = [
     { href: "/", label: "Home", role: "public" },
     { href: "/about", label: "About", role: "public" },
-    { href: "/dashboard", label: "Dashboard" },
+    { href: "/admin", label: "Dashboard", role: role.ADMIN },
+    { href: "/sender", label: "Dashboard", role: role.SENDER },
+    { href: "/receiver", label: "Dashboard", role: role.RECEIVER },
     { href: "/contact", label: "Contact", role: "public" },
 ]
 
-
 export default function Navbar() {
+    const { data } = useUserInfoQuery(undefined)
+    const userRole = data?.data?.role
+    const location = useLocation()
 
+    const isActive = (path: string) => location.pathname === path
 
     return (
-        <header className={"border-b px-4 md:px-6 pb-6"}>
-            <div className="flex h-16 items-center justify-between gap-4">
-                {/* Left side */}
-                <div className="flex items-center gap-2">
-                    {/* Mobile menu trigger */}
+        <header className="border-b bg-background/70 backdrop-blur-md sticky top-0 z-50 px-4 md:px-6">
+            <div className="flex h-16 items-center justify-between">
+                {/* Left Section */}
+                <div className="flex items-center gap-4">
+                    {/* Mobile Menu */}
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button
-                                className="group size-8 md:hidden"
                                 variant="ghost"
                                 size="icon"
+                                className="md:hidden rounded-lg"
                             >
                                 <svg
-                                    className="pointer-events-none"
-                                    width={16}
-                                    height={16}
-                                    viewBox="0 0 24 24"
+                                    className="w-5 h-5"
                                     fill="none"
                                     stroke="currentColor"
-                                    strokeWidth="2"
+                                    strokeWidth={2}
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
                                 >
-                                    <path
-                                        d="M4 12L20 12"
-                                        className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
-                                    />
-                                    <path
-                                        d="M4 12H20"
-                                        className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
-                                    />
-                                    <path
-                                        d="M4 12H20"
-                                        className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
-                                    />
+                                    <path d="M4 6h16M4 12h16M4 18h16" />
                                 </svg>
                             </Button>
                         </PopoverTrigger>
-                        <PopoverContent align="start" className="w-36 p-1 md:hidden">
-                            <NavigationMenu className="max-w-none *:w-full">
-                                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                                    {navigationLinks.map((link, index) => (
-                                        <div key={index}>
-                                            {
-                                                link.role === "public" && (
-                                                    <NavigationMenuItem
-                                                        className="w-full"
-                                                    >
-                                                        <NavigationMenuLink
-                                                            asChild
-                                                            href={link.href}
-                                                            className="py-1.5"
+                        <PopoverContent
+                            align="start"
+                            className="w-44 p-2 md:hidden rounded-xl shadow-lg"
+                        >
+                            <NavigationMenu className="w-full">
+                                <NavigationMenuList className="flex-col items-start gap-1">
+                                    {navigationLinks.map(
+                                        (link, index) =>
+                                            (link.role === "public" || link.role === userRole) && (
+                                                <NavigationMenuItem key={index} className="w-full">
+                                                    <NavigationMenuLink asChild>
+                                                        <Link
+                                                            to={link.href}
+                                                            className={clsx(
+                                                                "block w-full rounded-md px-3 py-2 text-sm transition-colors",
+                                                                isActive(link.href)
+                                                                    ? "text-primary underline decoration-2 underline-offset-4"
+                                                                    : "text-muted-foreground hover:text-foreground"
+                                                            )}
                                                         >
-                                                            <Link to={link.href}>{link.label}</Link>
-                                                        </NavigationMenuLink>
-                                                    </NavigationMenuItem>)
-                                            }
-                                            {/* {
-                                                link.role === user?.role &&
-                                                (<NavigationMenuItem key={index} className="w-full">
-                                                    <NavigationMenuLink
-                                                        asChild
-                                                        href={link.href}
-                                                        className="py-1.5"
-                                                    >
-                                                        <Link href={link.href}>{link.label}</Link>
+                                                            {link.label}
+                                                        </Link>
                                                     </NavigationMenuLink>
-                                                </NavigationMenuItem>)
-                                            } */}
-
-                                        </div>
-                                    ))}
+                                                </NavigationMenuItem>
+                                            )
+                                    )}
                                 </NavigationMenuList>
                             </NavigationMenu>
                         </PopoverContent>
                     </Popover>
-                    {/* Main nav */}
-                    <div className="flex items-center gap-6">
-                        <Link to="/" className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-                            <Logo />
-                        </Link>
-                        {/* Navigation menu */}
-                        <NavigationMenu className="max-md:hidden">
-                            <NavigationMenuList className="gap-2">
-                                {navigationLinks.map((link, index = 0) => (
-                                    <div key={index++}>
-                                        {
-                                            link.role === "public" && (
-                                                <NavigationMenuItem
-                                                    className="w-full"
-                                                >
-                                                    <NavigationMenuLink
-                                                        asChild
-                                                        href={link.href}
-                                                        className="py-1.5"
-                                                    >
-                                                        <Link to={link.href}>{link.label}</Link>
-                                                    </NavigationMenuLink>
-                                                </NavigationMenuItem>)
-                                        }
-                                        {/* {
-                                            link.role === user?.role &&
-                                            (<NavigationMenuItem key={index} className="w-full">
-                                                <NavigationMenuLink
-                                                    asChild
-                                                    href={link.href}
-                                                    className="py-1.5"
-                                                >
-                                                    <Link href={link.href}>{link.label}</Link>
-                                                </NavigationMenuLink>
-                                            </NavigationMenuItem>)
-                                        } */}
 
-                                    </div>
-                                ))}
-                            </NavigationMenuList>
-                        </NavigationMenu>
-                    </div>
+                    {/* Logo */}
+                    <Link
+                        to="/"
+                        className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg shadow-sm hover:scale-105 transition-transform"
+                    >
+                        <Logo />
+                    </Link>
+
+                    {/* Desktop Menu */}
+                    <NavigationMenu className="hidden md:flex">
+                        <NavigationMenuList className="gap-4">
+                            {navigationLinks.map(
+                                (link, index) =>
+                                    (link.role === "public" || link.role === userRole) && (
+                                        <NavigationMenuItem key={index}>
+                                            <NavigationMenuLink asChild>
+                                                <Link
+                                                    to={link.href}
+                                                    className={clsx(
+                                                        "text-sm font-medium px-3 py-2 rounded-md transition-colors",
+                                                        isActive(link.href)
+                                                            ? "text-primary underline decoration-2 underline-offset-4"
+                                                            : "text-muted-foreground hover:text-foreground"
+                                                    )}
+                                                >
+                                                    {link.label}
+                                                </Link>
+                                            </NavigationMenuLink>
+                                        </NavigationMenuItem>
+                                    )
+                            )}
+                        </NavigationMenuList>
+                    </NavigationMenu>
                 </div>
-                {/* Right side */}
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
 
-                        <ModeToggle />
-                    </div>
-                    {/* User menu */}
+                {/* Right Section */}
+                <div className="flex items-center gap-3">
+                    <ModeToggle />
                     <UserMenu />
                 </div>
             </div>
         </header>
     )
 }
-

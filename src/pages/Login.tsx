@@ -10,7 +10,7 @@ export default function Login() {
                     <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
                         <Logo />
                     </div>
-                    GoParcel Inc.
+                    GoParcel.
                 </Link>
                 <LoginForm />
             </div>
