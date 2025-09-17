@@ -22,7 +22,9 @@ export default function DashboardLayout() {
 
                     </div>
                 </header>
-                <Outlet />
+                <div className="ml-2">
+                    <Outlet />
+                </div>
             </SidebarInset>
         </SidebarProvider>
     )

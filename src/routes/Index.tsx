@@ -1,13 +1,19 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import About from "@/pages/About";
+import AdminHome from "@/pages/admin/AdminHome";
 import AllUser from "@/pages/admin/AllUser";
 import Contact from "@/pages/Contact";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
-import ReceivedParcel from "@/pages/receiver/ReceivedParcel";
+import IncomingParcel from "@/pages/receiver/IncomingParcel";
+import ParcelHistory from "@/pages/receiver/ParcelHistory";
+import ReceiverHome from "@/pages/receiver/ReceiverHome";
 import Register from "@/pages/Register";
-import AllParcel from "@/pages/sender/AllParcel";
+import CreateParcel from "@/pages/sender/CreateParcel";
+import MyParcel from "@/pages/sender/MyParcel";
+import AllParcel from "@/pages/sender/MyParcel";
+import SenderHome from "@/pages/sender/SenderHome";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -35,9 +41,17 @@ export const router = createBrowserRouter([
         Component: DashboardLayout,
         children: [
             {
+                path: "admin-home",
+                Component: AdminHome
+            },
+            {
+                path: "all-parcel",
+                Component: AllParcel
+            },
+            {
                 path: "all-user",
                 Component: AllUser
-            }
+            },
         ]
     },
 
@@ -46,8 +60,16 @@ export const router = createBrowserRouter([
         Component: DashboardLayout,
         children: [
             {
-                path: "all-parcel",
-                Component: AllParcel
+                path: "sender-home",
+                Component: SenderHome
+            },
+            {
+                path: "create-parcel",
+                Component: CreateParcel
+            },
+            {
+                path: "my-parcel",
+                Component: MyParcel
             }
         ]
     },
@@ -56,9 +78,17 @@ export const router = createBrowserRouter([
         Component: DashboardLayout,
         children: [
             {
-                path: "receive-parcel",
-                Component: ReceivedParcel
-            }
+                path: "receiver-home",
+                Component: ReceiverHome
+            },
+            {
+                path: "incoming-parcel",
+                Component: IncomingParcel
+            },
+            {
+                path: "parcel-history",
+                Component: ParcelHistory
+            },
         ]
     },
 

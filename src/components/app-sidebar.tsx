@@ -1,7 +1,4 @@
 
-import {
-  SquareTerminal
-} from "lucide-react"
 
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
@@ -19,6 +16,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { useUserInfoQuery } from "@/redux/features/auth/authApi"
+import { getSidebarItems } from "@/utils/getSidebarItems"
 import { Link } from "react-router"
 
 // This is sample data.
@@ -27,7 +25,7 @@ import { Link } from "react-router"
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const { data: user } = useUserInfoQuery(undefined);
-
+  // console.log(user);
   const data = {
     user: {
       name: user?.data?.name,
@@ -35,25 +33,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       avatar: "/avatars/shadcn.jpg",
     },
 
-    navMain: [
-      {
-        title: "Playground",
-        url: "#",
-        icon: SquareTerminal,
-        isActive: true,
-        items: [
-          {
-            title: "History",
-            url: "#",
-          },
-          {
-            title: "Starred",
-            url: "#",
-          },
-        ],
-      },
+    navMain: getSidebarItems(user?.data?.role)
 
-    ],
   }
 
 
@@ -65,7 +46,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
-        {data?.navMain?.map((item) => (
+        {data.navMain.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
