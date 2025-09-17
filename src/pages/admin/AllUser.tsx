@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useAllUserQuery } from "@/redux/features/auth/authApi"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import {
     Table,
     TableBody,
@@ -8,13 +10,21 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
+import { useAllUserQuery } from "@/redux/features/auth/authApi"
+import { useState } from "react"
 
 export default function AllUser() {
     const { data, isLoading } = useAllUserQuery(undefined)
     const users = data?.data
+    const [selectedUser, setSelectedUser] = useState<any>(null)
+    const [open, setOpen] = useState(false)
 
     if (isLoading) return <div>Loading......</div>
+
+    const handleDetailsClick = (user: any) => {
+        setSelectedUser(user)
+        setOpen(true)
+    }
 
     return (
         <div className="p-6">
@@ -26,10 +36,7 @@ export default function AllUser() {
                             <TableHead>Name</TableHead>
                             <TableHead>Email</TableHead>
                             <TableHead>Role</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Phone</TableHead>
-                            <TableHead>Address</TableHead>
-                            <TableHead>Created At</TableHead>
+                            <TableHead>Details</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -52,27 +59,72 @@ export default function AllUser() {
                                     </Badge>
                                 </TableCell>
                                 <TableCell>
-                                    <Badge
-                                        variant="outline"
-                                        className={
-                                            user.isActive === "ACTIVE"
-                                                ? "text-green-600 border-green-600"
-                                                : "text-red-600 border-red-600"
-                                        }
-                                    >
-                                        {user.isActive}
-                                    </Badge>
-                                </TableCell>
-                                <TableCell>{user.phone || "N/A"}</TableCell>
-                                <TableCell>{user.address || "N/A"}</TableCell>
-                                <TableCell>
-                                    {new Date(user.createdAt).toLocaleDateString()}
+                                    <Button size="sm" onClick={() => handleDetailsClick(user)}>
+                                        Details
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </div>
+
+            {/* Modal */}
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent className="max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>User Details</DialogTitle>
+                    </DialogHeader>
+                    {selectedUser && (
+                        <div className="space-y-2 mt-2">
+                            <p>
+                                <strong>Name:</strong> {selectedUser.name}
+                            </p>
+                            <p>
+                                <strong>Email:</strong> {selectedUser.email}
+                            </p>
+                            <p>
+                                <strong>Role:</strong>{" "}
+                                <Badge
+                                    variant="outline"
+                                    className={
+                                        selectedUser.role === "ADMIN"
+                                            ? "text-purple-600 border-purple-600"
+                                            : selectedUser.role === "SENDER"
+                                                ? "text-blue-600 border-blue-600"
+                                                : "text-green-600 border-green-600"
+                                    }
+                                >
+                                    {selectedUser.role}
+                                </Badge>
+                            </p>
+                            <p>
+                                <strong>Status:</strong>{" "}
+                                <Badge
+                                    variant="outline"
+                                    className={
+                                        selectedUser.isActive === "ACTIVE"
+                                            ? "text-green-600 border-green-600"
+                                            : "text-red-600 border-red-600"
+                                    }
+                                >
+                                    {selectedUser.isActive}
+                                </Badge>
+                            </p>
+                            <p>
+                                <strong>Phone:</strong> {selectedUser.phone || "N/A"}
+                            </p>
+                            <p>
+                                <strong>Address:</strong> {selectedUser.address || "N/A"}
+                            </p>
+                            <p>
+                                <strong>Created At:</strong>{" "}
+                                {new Date(selectedUser.createdAt).toLocaleDateString()}
+                            </p>
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }
