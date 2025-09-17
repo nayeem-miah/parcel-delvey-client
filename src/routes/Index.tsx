@@ -2,6 +2,7 @@ import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import About from "@/pages/About";
 import AdminHome from "@/pages/admin/AdminHome";
+import AllParcel from "@/pages/admin/AllParcel";
 import AllUser from "@/pages/admin/AllUser";
 import Contact from "@/pages/Contact";
 import Home from "@/pages/Home";
@@ -12,7 +13,6 @@ import ReceiverHome from "@/pages/receiver/ReceiverHome";
 import Register from "@/pages/Register";
 import CreateParcel from "@/pages/sender/CreateParcel";
 import MyParcel from "@/pages/sender/MyParcel";
-import AllParcel from "@/pages/sender/MyParcel";
 import SenderHome from "@/pages/sender/SenderHome";
 import { createBrowserRouter } from "react-router";
 
