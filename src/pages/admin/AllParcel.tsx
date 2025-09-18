@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
 import { Badge } from "@/components/ui/badge"
 import {
     Table,
@@ -10,7 +9,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { useAllParcelQuery } from "@/redux/features/parcel/parcelApi"
+import { useAllParcelQuery, useUpdateCurrentStatusMutation } from "@/redux/features/parcel/parcelApi"
 import type { IParcel } from "@/types"
 import {
     Dialog,
@@ -24,8 +23,10 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState } from "react"
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+import { toast } from "sonner"
 
 export default function AllParcel() {
+    const [updateCurrentStatus, { isLoading: currentStatusLoading }] = useUpdateCurrentStatusMutation()
     const [statusFilter, setStatusFilter] = useState<string>("ALL")
     const [page, setPage] = useState<number>(1)
     const limit = 10
@@ -38,15 +39,35 @@ export default function AllParcel() {
     const parcels = data?.data || []
     const meta = data?.meta
 
-    if (isLoading) return <div>loading.........</div>
+
+    const handleSubmit = async (id: string) => {
+        try {
+            const res = await updateCurrentStatus(id).unwrap();
+            console.log(res);
+
+            if (res.success) {
+                toast.success(res.message)
+            }
+
+
+        } catch (error: any) {
+            console.log(error);
+
+            toast.error(error.data.message)
+        }
+    }
+
+
+
+    if (isLoading) return <div className="p-6 text-center">loading.........</div>
 
     return (
-        <div className="p-6">
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold">📦 All Parcels</h2>
+        <div className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mb-4">
+                <h2 className="text-xl sm:text-2xl font-bold">📦 All Parcels</h2>
                 {/* Filter */}
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-[200px]">
+                    <SelectTrigger className="w-full sm:w-[200px]">
                         <SelectValue placeholder="Filter by status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -59,23 +80,43 @@ export default function AllParcel() {
                     </SelectContent>
                 </Select>
             </div>
-            {parcels.length === 0 ? (<div> not found parcels</div>) :
-                (<div className="rounded-md border">
-                    <Table>
+
+            {parcels.length === 0 ? (
+                <div className="text-center py-6">Not found parcels</div>
+            ) : (
+                <div className="rounded-md border overflow-x-auto">
+                    <Table className="min-w-[600px]">
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Tracking ID</TableHead>
                                 <TableHead>Status</TableHead>
                                 <TableHead>Action</TableHead>
+                                <TableHead>Details</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {parcels && parcels.length > 0 && parcels.map((parcel: IParcel) => (
+                            {parcels.map((parcel: IParcel) => (
                                 <TableRow key={parcel._id}>
-                                    <TableCell className="font-medium">{parcel.tracking_id}</TableCell>
+                                    <TableCell className="font-medium text-sm sm:text-base">{parcel.tracking_id}</TableCell>
                                     <TableCell>
                                         <Badge
                                             variant="outline"
+                                            className={`text-xs sm:text-sm ${parcel.currentStatus === "DELIVERED"
+                                                ? "text-green-600 border-green-600"
+                                                : parcel.currentStatus === "CANCELLED"
+                                                    ? "text-red-600 border-red-600"
+                                                    : "text-blue-600 border-blue-600"
+                                                }`}
+                                        >
+                                            {parcel.currentStatus}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            onClick={() => handleSubmit(parcel._id)}
+                                            disabled={currentStatusLoading}
+                                            variant="outline"
+                                            size="sm"
                                             className={
                                                 parcel.currentStatus === "DELIVERED"
                                                     ? "text-green-600 border-green-600"
@@ -84,8 +125,12 @@ export default function AllParcel() {
                                                         : "text-blue-600 border-blue-600"
                                             }
                                         >
-                                            {parcel.currentStatus}
-                                        </Badge>
+                                            {parcel.currentStatus === "REQUESTED" && "Approved Now"}
+                                            {parcel.currentStatus === "APPROVED" && "Dispatched Now"}
+                                            {parcel.currentStatus === "DISPATCHED" && "Already Dispatched"}
+                                            {parcel.currentStatus === "CANCELLED" && "Already Canceled"}
+                                            {parcel.currentStatus === "DELIVERED" && "Already Delivered"}
+                                        </Button>
                                     </TableCell>
                                     <TableCell>
                                         <Dialog>
@@ -94,7 +139,7 @@ export default function AllParcel() {
                                                     Details
                                                 </Button>
                                             </DialogTrigger>
-                                            <DialogContent className="max-w-lg">
+                                            <DialogContent className="max-w-lg w-full">
                                                 <DialogHeader>
                                                     <DialogTitle>Parcel Details</DialogTitle>
                                                     <DialogDescription>
@@ -105,18 +150,14 @@ export default function AllParcel() {
                                                     {/* Sender */}
                                                     <div>
                                                         <h4 className="font-semibold">Sender</h4>
-                                                        <p>
-                                                            {parcel.sender.name} ({parcel.sender.email})
-                                                        </p>
+                                                        <p>{parcel.sender.name} ({parcel.sender.email})</p>
                                                         <p>{parcel.sender.address}</p>
                                                         <p>📞 {parcel.senderPhone}</p>
                                                     </div>
                                                     {/* Receiver */}
                                                     <div>
                                                         <h4 className="font-semibold">Receiver</h4>
-                                                        <p>
-                                                            {parcel.receiver.name} ({parcel.receiver.email})
-                                                        </p>
+                                                        <p>{parcel.receiver.name} ({parcel.receiver.email})</p>
                                                         <p>{parcel.receiver.address}</p>
                                                         <p>📞 {parcel.receiverPhone}</p>
                                                     </div>
@@ -131,7 +172,7 @@ export default function AllParcel() {
                                                     {/* Status Logs */}
                                                     <div>
                                                         <h4 className="font-semibold">Status Logs</h4>
-                                                        <ul className="list-disc list-inside">
+                                                        <ul className="list-disc list-inside space-y-1">
                                                             {parcel.statusLogs?.map((log: any, idx: number) => (
                                                                 <li key={idx}>
                                                                     <span className="font-medium">{log.status}</span> –{" "}
@@ -156,16 +197,13 @@ export default function AllParcel() {
                             ))}
                         </TableBody>
                     </Table>
-                </div>)
-
-            }
-
-
+                </div>
+            )}
 
             {/* Pagination */}
             <div className="mt-4 flex justify-center">
                 <Pagination>
-                    <PaginationContent>
+                    <PaginationContent className="flex items-center gap-2">
                         <PaginationItem>
                             <Button
                                 variant="outline"
@@ -177,7 +215,7 @@ export default function AllParcel() {
                             </Button>
                         </PaginationItem>
                         <PaginationItem>
-                            <span className="px-3 py-2 text-sm">
+                            <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm">
                                 Page {meta?.page} of {meta?.totalPage}
                             </span>
                         </PaginationItem>

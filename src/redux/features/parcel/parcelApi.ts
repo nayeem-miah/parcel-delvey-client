@@ -12,12 +12,22 @@ export const parcelApi = baseApi.injectEndpoints({
                     url: `/parcels/all${query}`,
                     method: "GET",
                 };
+
             },
+            providesTags: ["PARCEL"]
         }),
 
+        updateCurrentStatus: builder.mutation({
+            query: (id) => ({
+                url: `/parcels/current-status/${id}`,
+                method: "PATCH",
+            }),
+            invalidatesTags: ["PARCEL"]
+        })
     })
 })
 
 export const {
-    useAllParcelQuery
+    useAllParcelQuery,
+    useUpdateCurrentStatusMutation
 } = parcelApi;
