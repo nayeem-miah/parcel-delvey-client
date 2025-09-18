@@ -35,11 +35,17 @@ export default function AllParcel() {
         page,
         limit,
         filter: statusFilter !== "ALL" ? statusFilter : undefined
+    }, {
+        pollingInterval: 50000,
+        refetchOnFocus: true,
+        refetchOnReconnect: true,
+        refetchOnMountOrArgChange: true
     })
     const parcels = data?.data || []
     const meta = data?.meta
+    // console.log(parcels);
 
-
+    //  updated current status function
     const handleSubmit = async (id: string) => {
         try {
             const res = await updateCurrentStatus(id).unwrap();
