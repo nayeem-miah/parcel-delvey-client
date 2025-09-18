@@ -9,7 +9,7 @@ export const SenderSidebarItems: ISidebarItems[] = [
     items: [
       {
         title: "sender home",
-        url: "/sender/sender-home",
+        url: "/sender",
         component: SenderHome
       },
       {

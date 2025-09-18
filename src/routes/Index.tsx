@@ -41,7 +41,8 @@ export const router = createBrowserRouter([
         Component: DashboardLayout,
         children: [
             {
-                path: "admin-home",
+                index: true,
+                // path: "admin-home",
                 Component: AdminHome
             },
             {
@@ -60,7 +61,7 @@ export const router = createBrowserRouter([
         Component: DashboardLayout,
         children: [
             {
-                path: "sender-home",
+                index: true,
                 Component: SenderHome
             },
             {
@@ -78,7 +79,8 @@ export const router = createBrowserRouter([
         Component: DashboardLayout,
         children: [
             {
-                path: "receiver-home",
+                index: true,
+                // path: "receiver-home",
                 Component: ReceiverHome
             },
             {

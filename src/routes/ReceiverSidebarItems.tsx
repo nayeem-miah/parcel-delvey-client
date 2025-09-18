@@ -9,7 +9,7 @@ export const ReceiverSidebarItems: ISidebarItems[] = [
     items: [
       {
         title: "receiver home",
-        url: "/receiver/receiver-home",
+        url: "/receiver",
         component: ReceiverHome
       },
       {

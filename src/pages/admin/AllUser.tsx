@@ -59,7 +59,7 @@ export default function AllUser() {
                                     </Badge>
                                 </TableCell>
                                 <TableCell>
-                                    <Button size="sm" onClick={() => handleDetailsClick(user)}>
+                                    <Button size="sm" variant={"outline"} onClick={() => handleDetailsClick(user)}>
                                         Details
                                     </Button>
                                 </TableCell>
