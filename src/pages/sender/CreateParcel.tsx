@@ -1,6 +1,9 @@
+import ParcelForm from "@/components/modules/dashboard/ParcelFrom";
 
 export default function CreateParcel() {
     return (
-        <div>CreateParcel</div>
+        <div>
+            <ParcelForm />
+        </div>
     )
 }
