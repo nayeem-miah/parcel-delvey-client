@@ -3,6 +3,7 @@ import {
   LogIn,
   LogInIcon,
   LogOutIcon,
+  User2,
 } from "lucide-react"
 
 import {
@@ -87,6 +88,14 @@ export default function UserMenu() {
         {user ? (
           <>
             <DropdownMenuItem asChild>
+              <Link
+                className="w-full flex justify-start gap-2"
+                to={'/profile'}              >
+                <User2 size={16} className="opacity-70" />
+                profile
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Button
                 variant="outline"
                 className="w-full flex justify-start gap-2"
@@ -96,6 +105,7 @@ export default function UserMenu() {
                 Logout
               </Button>
             </DropdownMenuItem>
+
           </>
         ) : (
           <>

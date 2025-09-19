@@ -7,6 +7,7 @@ import AllUser from "@/pages/admin/AllUser";
 import Contact from "@/pages/Contact";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
+import Profile from "@/pages/Profile";
 import IncomingParcel from "@/pages/receiver/IncomingParcel";
 import ParcelHistory from "@/pages/receiver/ParcelHistory";
 import ReceiverHome from "@/pages/receiver/ReceiverHome";
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
             {
                 path: "/contact",
                 Component: Contact
+            },
+            {
+                path: "/profile",
+                Component: Profile
             },
         ]
     },

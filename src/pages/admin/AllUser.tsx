@@ -11,6 +11,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { useAllUserQuery } from "@/redux/features/auth/authApi"
+import Loading from "@/utils/Loading"
 import { useState } from "react"
 
 export default function AllUser() {
@@ -19,7 +20,7 @@ export default function AllUser() {
     const [selectedUser, setSelectedUser] = useState<any>(null)
     const [open, setOpen] = useState(false)
 
-    if (isLoading) return <div>Loading......</div>
+    if (isLoading) return <Loading />
 
     const handleDetailsClick = (user: any) => {
         setSelectedUser(user)

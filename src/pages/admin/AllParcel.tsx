@@ -24,6 +24,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState } from "react"
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 import { toast } from "sonner"
+import Loading from "@/utils/Loading"
 
 export default function AllParcel() {
     const [updateCurrentStatus, { isLoading: currentStatusLoading }] = useUpdateCurrentStatusMutation()
@@ -65,7 +66,7 @@ export default function AllParcel() {
 
 
 
-    if (isLoading) return <div className="p-6 text-center">loading.........</div>
+    if (isLoading) return <Loading />
 
     return (
         <div className="p-4 sm:p-6">

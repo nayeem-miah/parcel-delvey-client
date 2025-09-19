@@ -35,3 +35,16 @@ export interface IParcel {
     currentStatus: string
     createdAt: string
 }
+
+export interface IUser {
+    phone: string
+    _id: string
+    name: string
+    email: string
+    role: string
+    isActive: string
+    address: string
+    createdAt: string
+    updatedAt: string
+    __v: number
+}
