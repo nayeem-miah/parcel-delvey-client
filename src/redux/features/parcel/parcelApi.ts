@@ -2,7 +2,7 @@ import { baseApi } from "@/redux/baseApi";
 
 export const parcelApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-
+        //  admin
         allParcel: builder.query({
             query: ({ page = 1, limit = 10, filter = "" }) => {
                 let query = `?page=${page}&limit=${limit}`;
@@ -24,7 +24,7 @@ export const parcelApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["PARCEL"]
         }),
-
+        //  sender
         createParcel: builder.mutation({
             query: (parcelData) => ({
                 url: "/parcels",
@@ -44,6 +44,14 @@ export const parcelApi = baseApi.injectEndpoints({
 
             },
             providesTags: ["PARCEL"]
+        }),
+
+        cancelParcel: builder.mutation({
+            query: (id) => ({
+                url: `/parcels/cancel/${id}`,
+                method: "PATCH"
+            }),
+            invalidatesTags: ["PARCEL"]
         })
     })
 })
@@ -52,5 +60,6 @@ export const {
     useAllParcelQuery,
     useUpdateCurrentStatusMutation,
     useCreateParcelMutation,
-    useMyParcelQuery
+    useMyParcelQuery,
+    useCancelParcelMutation
 } = parcelApi;

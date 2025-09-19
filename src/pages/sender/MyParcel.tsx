@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { useMyParcelQuery } from "@/redux/features/parcel/parcelApi"
+import { useCancelParcelMutation, useMyParcelQuery } from "@/redux/features/parcel/parcelApi"
 import type { IParcel } from "@/types"
 import Loading from "@/utils/Loading"
 import { useState } from "react"
@@ -11,6 +12,8 @@ import { toast } from "sonner"
 
 
 export default function MyParcel() {
+    const [cancelParcel, { isLoading: cancelLoading }] = useCancelParcelMutation();
+
     const [page, setPage] = useState<number>(1)
     const limit = 10
 
@@ -24,31 +27,30 @@ export default function MyParcel() {
         refetchOnMountOrArgChange: true
     })
     const parcels = data?.data || []
-    console.log(parcels);
+    // console.log(parcels);
     const meta = data?.meta
     // console.log(parcels);
 
     //  updated current status function
     const handleSubmit = async (id: string) => {
         try {
-            // const res = await updateCurrentStatus(id).unwrap();
-            // console.log(res);
+            const res = await cancelParcel(id).unwrap();
+            console.log(res);
 
-            // if (res.success) {
-            //     toast.success(res.message)
-            // }
+            if (res.success) {
+                toast.success(res.message)
+            }
 
 
         } catch (error: any) {
             console.log(error);
-
             toast.error(error.data.message)
         }
     }
 
 
 
-    if (isLoading) return <Loading />
+    if (isLoading || cancelLoading) return <Loading />
     return (
         <div className="p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mb-4">
@@ -65,15 +67,20 @@ export default function MyParcel() {
                             <TableRow>
                                 <TableHead>Tracking ID</TableHead>
                                 <TableHead>Status</TableHead>
+                                <TableHead>Cancel</TableHead>
                                 <TableHead>Details</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {parcels.map((parcel: IParcel) => (
                                 <TableRow key={parcel._id}>
-                                    <TableCell className="font-medium text-sm sm:text-base">{parcel.tracking_id}</TableCell>
+
+                                    <TableCell className="font-medium text-sm sm:text-base">{parcel.tracking_id}
+
+                                    </TableCell>
                                     <TableCell>
-                                        {/* <Badge
+                                        <Badge
+                                            variant={"outline"}
                                             className={`text-xs sm:text-sm ${parcel.currentStatus === "REQUESTED"
                                                 ? "text-green-600 border-green-600"
                                                 : parcel.currentStatus === "CANCELLED"
@@ -82,8 +89,29 @@ export default function MyParcel() {
                                                 }`}
                                         >
                                             {parcel.currentStatus}
-                                            </Badge> */}
-                                        {parcel.currentStatus}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button
+                                            onClick={() => handleSubmit(parcel._id)}
+                                            disabled={parcel.currentStatus === "DELIVERED" || parcel.currentStatus === "CANCELLED" || parcel.currentStatus === "DISPATCHED"}
+                                            variant="outline"
+                                            size="sm"
+                                            className={
+                                                parcel.currentStatus === "DELIVERED"
+                                                    ? "text-green-600 border-green-600"
+                                                    : parcel.currentStatus === "CANCELLED"
+                                                        ? "text-red-600 border-red-600"
+                                                        : "text-blue-600 border-blue-600"
+
+                                            }
+                                        >
+                                            {parcel.currentStatus === "REQUESTED" && "Cancel Now"}
+                                            {parcel.currentStatus === "APPROVED" && "Cancel Now"}
+                                            {parcel.currentStatus === "DISPATCHED" && "not cancel"}
+                                            {parcel.currentStatus === "CANCELLED" && "Already Canceled"}
+                                            {parcel.currentStatus === "DELIVERED" && "Already Delivered"}
+                                        </Button>
                                     </TableCell>
                                     <TableCell>
                                         <Dialog>
