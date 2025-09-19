@@ -23,11 +23,21 @@ export const parcelApi = baseApi.injectEndpoints({
                 method: "PATCH",
             }),
             invalidatesTags: ["PARCEL"]
+        }),
+
+        createParcel: builder.mutation({
+            query: (parcelData) => ({
+                url: "/parcels",
+                method: "POST",
+                data: parcelData
+            }),
+            invalidatesTags: ["PARCEL"]
         })
     })
 })
 
 export const {
     useAllParcelQuery,
-    useUpdateCurrentStatusMutation
+    useUpdateCurrentStatusMutation,
+    useCreateParcelMutation
 } = parcelApi;

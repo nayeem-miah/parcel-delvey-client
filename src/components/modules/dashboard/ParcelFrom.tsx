@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -27,12 +28,15 @@ import {
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { useAllUserQuery, useUserInfoQuery } from "@/redux/features/auth/authApi"
+import { useCreateParcelMutation } from "@/redux/features/parcel/parcelApi"
 import type { IUser } from "@/types"
 import Loading from "@/utils/Loading"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { format } from "date-fns"
 import { CalendarIcon, Package } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router"
+import { toast } from "sonner"
 import { z } from "zod"
 
 
@@ -49,9 +53,10 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 export default function ParcelForm() {
-
+    const [createParcel, { isLoading }] = useCreateParcelMutation();
     const { data: users, isLoading: usersLoading } = useAllUserQuery(undefined);
     const { data: userInfo, isLoading: userLoading } = useUserInfoQuery(undefined);
+    const navigate = useNavigate()
 
     // console.log(users?.data);
 
@@ -65,7 +70,7 @@ export default function ParcelForm() {
         defaultValues: {
             type: "",
             weight: undefined,
-            senderPhone: "",
+            senderPhone: userInfo?.data.phone || "",
             receiver: "",
             receiverPhone: "",
             expectedDeliveryDate: undefined,
@@ -74,18 +79,31 @@ export default function ParcelForm() {
         mode: "onChange",
     })
 
-    const onSubmit = (data: FormValues) => {
+    const onSubmit = async (data: FormValues) => {
 
         const parcelData = {
+            sender: userInfo?.data?._id,
             ...data,
-            sender: userInfo._id
+            weight: Number(data.weight),
         }
 
+        // console.log(parcelData);
+        try {
+            const res = await createParcel(parcelData).unwrap();
+            // console.log(res);
 
-        console.log("Form Data:", parcelData)
+            if (res.success) {
+                toast.success(res.message)
+                navigate("/sender/my-parcel")
+            }
+        } catch (error: any) {
+            console.log(error);
+            toast.error("something went wrong", error.message)
+
+        }
     }
 
-    if (usersLoading || userLoading) return <Loading />
+    if (usersLoading || userLoading || isLoading) return <Loading />
     return (
         <div className="min-h-screen  py-12 px-4">
             <div className="max-w-3xl mx-auto">
