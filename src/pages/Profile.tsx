@@ -5,8 +5,7 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardHeader,
-    CardTitle,
+    CardTitle
 } from "@/components/ui/card"
 import { useUserInfoQuery } from "@/redux/features/auth/authApi"
 import type { IUser } from "@/types"
@@ -20,11 +19,6 @@ import {
 } from "lucide-react"
 
 
-const statusColors: Record<string, string> = {
-    ACTIVE: "bg-green-100 text-green-800 border-green-300",
-    INACTIVE: "bg-red-100 text-red-800 border-red-300",
-}
-
 
 
 export default function ProfilePage() {
@@ -37,60 +31,101 @@ export default function ProfilePage() {
 
     const user: IUser = data?.data
 
-
-
     return (
-        <div className="min-h-screen y-8 px-4">
-            <div className="max-w-2xl mx-auto">
+        <div className="min-h-screen py-8 px-4">
+            <div className="max-w-4xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold mb-2">Profile Dashboard</h1>
-                    <p>Manage your personal information and settings</p>
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl font-extrabold mb-2">My Professional Profile</h1>
+                    <p className="text-lg ">Showcasing my skills, experience, and achievements</p>
                 </div>
 
-                <Card className="relative overflow-hidden border-0 shadow-2xl backdrop-blur-sm">
-                    {/* Edit profile */}
-                    <EditProfileDialog />
-
-                    {/* Profile Header */}
-                    <CardHeader className="text-center pb-6 pt-8">
-                        <div className="relative inline-block mb-4">
-                            <Avatar className="h-24 w-24 border-4 shadow-lg mx-auto">
-                                <AvatarFallback className="text-2xl font-bold">
+                {/* Profile Card */}
+                <Card className="overflow-hidden shadow-xl border-0 ">
+                    {/* Cover & Edit */}
+                    <div className="relative">
+                        <div className="h-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+                        <div className="absolute top-20 left-1/2 transform -translate-x-1/2">
+                            <Avatar className="h-28 w-28 border-4 border-white shadow-lg">
+                                <AvatarFallback className="text-3xl font-bold">
                                     {user?.name?.charAt(0).toUpperCase()}
-                                    <div className="absolute bottom-3 right-2 w-4 h-4 bg-green-500 border-2 rounded-full"></div>
+                                    <div className="absolute bottom-3 right-3.5 w-3 h-3 bg-green-500 border-2 rounded-full"></div>
                                 </AvatarFallback>
                             </Avatar>
-
                         </div>
-                        <CardTitle className="text-3xl font-bold mb-2">{user?.name}</CardTitle>
-                        <CardDescription className="text-lg text-gray-600 capitalize mb-3">{user?.role}</CardDescription>
-                        <Badge className={`${statusColors[user?.isActive] || statusColors.default} px-3 py-1 text-sm font-medium`}>
+                        <div className="absolute top-4 right-4">
+                            <EditProfileDialog />
+                        </div>
+                    </div>
+
+                    {/* Profile Info */}
+                    <CardContent className="pt-20 text-center">
+                        <CardTitle className="text-3xl font-bold mb-1">{user?.name}</CardTitle>
+                        <CardDescription className=" capitalize mb-3">{user?.role}</CardDescription>
+                        <Badge className={` bg-green-500 px-4 py-1 text-sm font-medium`}>
                             {user?.isActive}
                         </Badge>
-                    </CardHeader>
 
-                    {/* Profile Details */}
-                    <CardContent className="space-y-6 px-8 pb-8">
-                        <div className="grid gap-4 lg:grid-cols-2 grid-cols-1 md:grid-cols-2">
-                            <DetailItem icon={<Mail className="h-5 w-5 text-blue-600" />} label="Email Address" value={user?.email} />
-                            <DetailItem icon={<Phone className="h-5 w-5 text-green-600" />} label="Phone Number" value={user?.phone || "Not provided"} />
-                            <DetailItem icon={<MapPin className="h-5 w-5 text-purple-600" />} label="Address" value={user?.address} />
+                        {/* Profile Details */}
+                        <div className="mt-8 grid gap-6 md:grid-cols-2">
+                            <DetailItem icon={<Mail className="h-5 w-5 text-blue-600" />} label="Email" value={user?.email} />
+                            <DetailItem icon={<Phone className="h-5 w-5 text-green-600" />} label="Phone" value={user?.phone || "Not provided"} />
+                            <DetailItem icon={<MapPin className="h-5 w-5 text-purple-600" />} label="Address" value={user?.address || "Not provided"} />
                             <DetailItem icon={<Shield className="h-5 w-5 text-orange-600" />} label="Role" value={user?.role} />
-                            <DetailItem
-                                icon={<Calendar className="h-5 w-5 text-indigo-600" />}
-                                label="Member Since"
-                                value={new Date(user?.createdAt).toLocaleDateString("en-GB", {
-                                    day: "numeric",
-                                    month: "long",
-                                    year: "numeric",
-                                })}
-                            />
+                            <DetailItem icon={<Calendar className="h-5 w-5 text-indigo-600" />} label="Member Since" value={new Date(user?.createdAt).toLocaleDateString("en-GB", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric"
+                            })} />
+                            <DetailItem icon={<Calendar className="h-5 w-5 text-indigo-600" />} label="profile last update" value={new Date(user?.updatedAt).toLocaleDateString("en-GB", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric"
+                            })} />
                         </div>
+
+
+
+                        {/* Profile Progress */}
+                        <div className="mt-8">
+                            <h3 className="text-lg font-semibold mb-2">Profile Completeness</h3>
+
+                            {(() => {
+
+                                const requiredFields = [
+                                    user?.name,
+                                    user?.email,
+                                    user?.phone,
+                                    user?.address,
+                                    user?.role,
+                                ];
+
+
+                                const completedFields = requiredFields.filter(Boolean).length;
+                                const totalFields = requiredFields.length;
+
+
+                                const progress = Math.round((completedFields / totalFields) * 100);
+
+                                return (
+                                    <div>
+                                        <div className="w-full bg-gray-200 rounded-full h-4">
+                                            <div
+                                                className="bg-green-500 h-4 rounded-full transition-all duration-500"
+                                                style={{ width: `${progress}%` }}
+                                            ></div>
+                                        </div>
+                                        <p className="text-sm text-gray-600 mt-2">
+                                            {progress}% Complete
+                                        </p>
+                                    </div>
+                                );
+                            })()}
+                        </div>
+
                     </CardContent>
                 </Card>
             </div>
         </div>
     )
 }
-
