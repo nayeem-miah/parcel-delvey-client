@@ -1,7 +1,190 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useMyParcelQuery } from "@/redux/features/parcel/parcelApi"
+import type { IParcel } from "@/types"
+import Loading from "@/utils/Loading"
+import { useState } from "react"
+import { toast } from "sonner"
 
 
 export default function MyParcel() {
+    const [page, setPage] = useState<number>(1)
+    const limit = 10
+
+    const { data, isLoading } = useMyParcelQuery({
+        page,
+        limit
+    }, {
+        pollingInterval: 50000,
+        refetchOnFocus: true,
+        refetchOnReconnect: true,
+        refetchOnMountOrArgChange: true
+    })
+    const parcels = data?.data || []
+    console.log(parcels);
+    const meta = data?.meta
+    // console.log(parcels);
+
+    //  updated current status function
+    const handleSubmit = async (id: string) => {
+        try {
+            // const res = await updateCurrentStatus(id).unwrap();
+            // console.log(res);
+
+            // if (res.success) {
+            //     toast.success(res.message)
+            // }
+
+
+        } catch (error: any) {
+            console.log(error);
+
+            toast.error(error.data.message)
+        }
+    }
+
+
+
+    if (isLoading) return <Loading />
     return (
-        <div>MyParcel</div>
+        <div className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between mb-4">
+                <h2 className="text-xl sm:text-2xl font-bold">📦 All Parcels</h2>
+
+            </div>
+
+            {parcels.length === 0 ? (
+                <div className="text-center py-6">Not found parcels</div>
+            ) : (
+                <div className="rounded-md border overflow-x-auto">
+                    <Table className="min-w-[600px]">
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Tracking ID</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Details</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {parcels.map((parcel: IParcel) => (
+                                <TableRow key={parcel._id}>
+                                    <TableCell className="font-medium text-sm sm:text-base">{parcel.tracking_id}</TableCell>
+                                    <TableCell>
+                                        {/* <Badge
+                                            className={`text-xs sm:text-sm ${parcel.currentStatus === "REQUESTED"
+                                                ? "text-green-600 border-green-600"
+                                                : parcel.currentStatus === "CANCELLED"
+                                                    ? "text-red-600 border-red-600"
+                                                    : "text-blue-600 border-blue-600"
+                                                }`}
+                                        >
+                                            {parcel.currentStatus}
+                                            </Badge> */}
+                                        {parcel.currentStatus}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button variant="outline" size="sm">
+                                                    Details
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="max-w-lg w-full">
+                                                <DialogHeader>
+                                                    <DialogTitle>Parcel Details</DialogTitle>
+                                                    <DialogDescription>
+                                                        Tracking ID: {parcel.tracking_id}
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <div className="space-y-3 text-sm">
+                                                    {/* Sender */}
+                                                    <div>
+                                                        <h4 className="font-semibold">Sender</h4>
+                                                        <p>{parcel.sender.name} ({parcel.sender.email})</p>
+                                                        <p>{parcel.sender.address}</p>
+                                                        <p>📞 {parcel.senderPhone}</p>
+                                                    </div>
+                                                    {/* Receiver */}
+                                                    <div>
+                                                        <h4 className="font-semibold">Receiver</h4>
+                                                        <p>{parcel.receiver.name} ({parcel.receiver.email})</p>
+                                                        <p>{parcel.receiver.address}</p>
+                                                        <p>📞 {parcel.receiverPhone}</p>
+                                                    </div>
+                                                    {/* Parcel Info */}
+                                                    <div>
+                                                        <h4 className="font-semibold">Parcel Info</h4>
+                                                        <p>Type: {parcel.type}</p>
+                                                        <p>Weight: {parcel.weight} kg</p>
+                                                        <p>Fee: ${parcel.fee}</p>
+                                                        <p>Status: {parcel.currentStatus}</p>
+                                                    </div>
+                                                    {/* Status Logs */}
+                                                    <div>
+                                                        <h4 className="font-semibold">Status Logs</h4>
+                                                        <ul className="list-disc list-inside space-y-1">
+                                                            {parcel.statusLogs?.map((log: any, idx: number) => (
+                                                                <li key={idx}>
+                                                                    <span className="font-medium">{log.status}</span> –{" "}
+                                                                    {new Date(log.timestamp).toLocaleString()} by {log.updatedBy}
+                                                                    {log.note && (
+                                                                        <span className="italic text-muted-foreground"> ({log.note})</span>
+                                                                    )}
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </div>
+                                                    {/* Created At */}
+                                                    <div>
+                                                        <h4 className="font-semibold">Created At</h4>
+                                                        <p>{new Date(parcel.createdAt).toLocaleString()}</p>
+                                                    </div>
+                                                </div>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
+
+            {/* Pagination */}
+            <div className="mt-4 flex justify-center">
+                <Pagination>
+                    <PaginationContent className="flex items-center gap-2">
+                        <PaginationItem>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                disabled={page <= 1}
+                                onClick={() => setPage((p) => p - 1)}
+                            >
+                                <PaginationPrevious />
+                            </Button>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm">
+                                Page {meta?.page} of {meta?.totalPage}
+                            </span>
+                        </PaginationItem>
+                        <PaginationItem>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                disabled={page >= meta?.totalPage}
+                                onClick={() => setPage((p) => p + 1)}
+                            >
+                                <PaginationNext />
+                            </Button>
+                        </PaginationItem>
+                    </PaginationContent>
+                </Pagination>
+            </div>
+        </div>
     )
 }

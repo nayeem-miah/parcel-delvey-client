@@ -32,6 +32,18 @@ export const parcelApi = baseApi.injectEndpoints({
                 data: parcelData
             }),
             invalidatesTags: ["PARCEL"]
+        }),
+
+        myParcel: builder.query({
+            query: ({ page = 1, limit = 10 }) => {
+                const query = `?page=${page}&limit=${limit}`;
+                return {
+                    url: `/parcels/me${query}`,
+                    method: "GET",
+                };
+
+            },
+            providesTags: ["PARCEL"]
         })
     })
 })
@@ -39,5 +51,6 @@ export const parcelApi = baseApi.injectEndpoints({
 export const {
     useAllParcelQuery,
     useUpdateCurrentStatusMutation,
-    useCreateParcelMutation
+    useCreateParcelMutation,
+    useMyParcelQuery
 } = parcelApi;
