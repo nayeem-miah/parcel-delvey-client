@@ -6,6 +6,7 @@ import AdminHome from "@/pages/admin/AdminHome";
 import AllParcel from "@/pages/admin/AllParcel";
 import AllUser from "@/pages/admin/AllUser";
 import Contact from "@/pages/Contact";
+import ErrorPage from "@/pages/ErrorPage";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Profile from "@/pages/Profile";
@@ -24,6 +25,7 @@ import { createBrowserRouter } from "react-router";
 export const router = createBrowserRouter([
     {
         Component: App,
+        errorElement: <ErrorPage />,
         path: "/",
         children: [
             {
