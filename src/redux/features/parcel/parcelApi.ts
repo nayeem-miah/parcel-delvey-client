@@ -81,6 +81,17 @@ export const parcelApi = baseApi.injectEndpoints({
             },
             providesTags: ["PARCEL"]
         }),
+
+        achievement: builder.query({
+            query: () => {
+                return {
+                    url: `/parcels/achievement`,
+                    method: "GET",
+                };
+
+            },
+            providesTags: ["PARCEL", "USER"]
+        }),
     })
 })
 
@@ -92,5 +103,6 @@ export const {
     useCancelParcelMutation,
     useIncomingParcelQuery,
     useConfirmParcelMutation,
-    useDeliveryHistoryQuery
+    useDeliveryHistoryQuery,
+    useAchievementQuery
 } = parcelApi;
