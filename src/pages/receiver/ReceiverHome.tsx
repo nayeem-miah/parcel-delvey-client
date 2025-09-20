@@ -57,7 +57,7 @@ export default function ReceiverHome() {
 
     return (
         <div>
-            <div className="p-6 space-y-6">
+            <div className=" space-y-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <h2 className="text-2xl font-bold">Receiver Dashboard</h2>
@@ -98,7 +98,7 @@ export default function ReceiverHome() {
             </div>
 
             {/* Charts Section */}
-            <div className="">
+            <div className="mt-5">
                 {/* Pie Chart */}
                 <Card>
                     <CardHeader>

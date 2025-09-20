@@ -5,7 +5,7 @@ import About from "@/pages/About";
 import AdminHome from "@/pages/admin/AdminHome";
 import AllParcel from "@/pages/admin/AllParcel";
 import AllUser from "@/pages/admin/AllUser";
-import Contact from "@/pages/Contact";
+import { Contact } from "@/pages/Contact";
 import ErrorPage from "@/pages/ErrorPage";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";

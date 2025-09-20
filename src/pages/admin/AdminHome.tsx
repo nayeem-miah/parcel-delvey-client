@@ -76,9 +76,9 @@ export default function AdminHome() {
 
     return (
         <div>
-            <div className="p-6 space-y-6">
+            <div className=" space-y-6">
                 {/* Header */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between ">
                     <h2 className="text-2xl font-bold">Admin Dashboard</h2>
                 </div>
 
@@ -144,15 +144,10 @@ export default function AdminHome() {
                         </CardFooter>
                     </Card>
                 </div>
-
-                {/* Charts Section */}
-
-
-                {/* resent delivary parcels */}
             </div>
 
             {/* Charts Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
                 {/* Pie Chart */}
                 <Card>
                     <CardHeader>
