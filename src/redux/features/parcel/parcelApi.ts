@@ -70,6 +70,17 @@ export const parcelApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["PARCEL"]
         }),
+
+        deliveryHistory: builder.query({
+            query: () => {
+                return {
+                    url: `/parcels/history`,
+                    method: "GET",
+                };
+
+            },
+            providesTags: ["PARCEL"]
+        }),
     })
 })
 
@@ -80,5 +91,6 @@ export const {
     useMyParcelQuery,
     useCancelParcelMutation,
     useIncomingParcelQuery,
-    useConfirmParcelMutation
+    useConfirmParcelMutation,
+    useDeliveryHistoryQuery
 } = parcelApi;
