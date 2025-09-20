@@ -1,5 +1,6 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { role } from "@/constants/role";
 import About from "@/pages/About";
 import AdminHome from "@/pages/admin/AdminHome";
 import AllParcel from "@/pages/admin/AllParcel";
@@ -15,6 +16,9 @@ import Register from "@/pages/Register";
 import CreateParcel from "@/pages/sender/CreateParcel";
 import MyParcel from "@/pages/sender/MyParcel";
 import SenderHome from "@/pages/sender/SenderHome";
+import Unauthorized from "@/pages/Unauthorized";
+import type { TRole } from "@/types";
+import { CheckAuth } from "@/utils/CheckAuth";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -43,7 +47,7 @@ export const router = createBrowserRouter([
 
     {
         path: "/admin",
-        Component: DashboardLayout,
+        Component: CheckAuth(DashboardLayout, role.ADMIN as TRole),
         children: [
             {
                 index: true,
@@ -63,7 +67,7 @@ export const router = createBrowserRouter([
 
     {
         path: "/sender",
-        Component: DashboardLayout,
+        Component: CheckAuth(DashboardLayout, role.SENDER as TRole),
         children: [
             {
                 index: true,
@@ -81,7 +85,7 @@ export const router = createBrowserRouter([
     },
     {
         path: "/receiver",
-        Component: DashboardLayout,
+        Component: CheckAuth(DashboardLayout, role.RECEIVER as TRole),
         children: [
             {
                 index: true,
@@ -106,5 +110,9 @@ export const router = createBrowserRouter([
     {
         Component: Register,
         path: "/register"
+    },
+    {
+        Component: Unauthorized,
+        path: "/unauthorized"
     },
 ])
