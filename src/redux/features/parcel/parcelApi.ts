@@ -52,7 +52,24 @@ export const parcelApi = baseApi.injectEndpoints({
                 method: "PATCH"
             }),
             invalidatesTags: ["PARCEL"]
-        })
+        }),
+
+        //  receiver 
+        incomingParcel: builder.query({
+            query: () => ({
+                url: "/parcels/incoming",
+                method: "GET"
+            }),
+            providesTags: ["PARCEL"]
+        }),
+
+        confirmParcel: builder.mutation({
+            query: (id) => ({
+                url: `/parcels/confirm-status/${id}`,
+                method: "PATCH"
+            }),
+            invalidatesTags: ["PARCEL"]
+        }),
     })
 })
 
@@ -61,5 +78,7 @@ export const {
     useUpdateCurrentStatusMutation,
     useCreateParcelMutation,
     useMyParcelQuery,
-    useCancelParcelMutation
+    useCancelParcelMutation,
+    useIncomingParcelQuery,
+    useConfirmParcelMutation
 } = parcelApi;
