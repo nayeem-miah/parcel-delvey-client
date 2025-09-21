@@ -78,7 +78,7 @@ const About = ({
                         Reliable Parcel Delivery
                     </h1>
                     <p
-                        className="text-white/90 mt-3 text-base md:text-lg max-w-2xl"
+                        className="text-white/90 mt-3 "
                         data-aos="fade-up"
                     >
                         Fast, secure, and dependable delivery services for all your parcels.
@@ -92,10 +92,10 @@ const About = ({
             </div>
 
             {/* About Section */}
-            <div className="px-5 py-20 max-w-6xl mx-auto">
+            <div className=" pb-10 pt-20 ">
                 <div className="text-center" data-aos="fade-up">
                     <h2 className="text-4xl font-bold mb-4">{title}</h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
+                    <p className="text-muted-foreground">
                         {description}
                     </p>
                 </div>
@@ -161,7 +161,7 @@ const About = ({
             </div>
 
             {/* Achievements */}
-            <div className="py-20 px-5 max-w-6xl mx-auto">
+            <div className="py-10   ">
                 <h2
                     className="text-4xl font-bold text-center mb-4"
                     data-aos="fade-up"
@@ -169,7 +169,7 @@ const About = ({
                     {achievementsTitle}
                 </h2>
                 <p
-                    className="text-center text-muted-foreground mb-12 max-w-xl mx-auto"
+                    className="text-center text-muted-foreground mb-12 "
                     data-aos="fade-up"
                 >
                     {achievementsDescription}
