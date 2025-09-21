@@ -14,7 +14,7 @@ export default function Banner() {
     const [current, setCurrent] = useState(0);
     const { data, isLoading } = useUserInfoQuery(undefined)
     const user = data?.data
-    console.log(user);
+    // console.log(user);
 
     useEffect(() => {
         const timer = setInterval(() => {
