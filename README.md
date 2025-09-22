@@ -17,6 +17,8 @@ The app consumes the backend Parcel Delivery API to enable **Senders**, **Receiv
 
 ---
 
+## live link: https://parcel-delevary-client.vercel.app
+
 ## **Tech Stack**
 
 **Frontend:**

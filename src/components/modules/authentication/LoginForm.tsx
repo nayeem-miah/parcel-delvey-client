@@ -37,6 +37,7 @@ export function LoginForm() {
             email: data.email,
             password: data.password
         }
+        // console.log(userInfo);
         const toastId = toast.loading("loading.......")
         try {
             const res = await login(userInfo).unwrap();
