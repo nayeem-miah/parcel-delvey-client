@@ -115,8 +115,8 @@ src/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/<your-username>/parcel-delivery-frontend.git
-cd parcel-delivery-frontend
+git clone https://github.com/nayeem-miah/parcel-delvey-client.git
+cd parcel-delvey-client
 ````
 
 2. Install dependencies:
@@ -151,14 +151,6 @@ npm run dev
 
 Test parcel creation, tracking, and dashboard functionalities for each role.
 
----
-
-
-## **Screenshots**
-
-![App Screenshot](./src/assets/screenshot.png)
-
----
 
 ## **Contributing**
 
