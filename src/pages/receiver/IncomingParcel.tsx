@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useConfirmParcelMutation, useIncomingParcelQuery } from "@/redux/features/parcel/parcelApi"
 import type { IParcel } from "@/types"
 import Loading from "@/utils/Loading"
+import NotFount from "@/utils/NotFount"
 import { toast } from "sonner"
 
 export default function IncomingParcel() {
@@ -46,7 +47,7 @@ export default function IncomingParcel() {
       </div>
 
       {parcels.length === 0 ? (
-        <div className="text-center py-6">Not found parcels</div>
+        <NotFount data="parcels" href="" />
       ) : (
         <div className="rounded-md border overflow-x-auto">
           <Table className="min-w-[600px]">

@@ -25,6 +25,7 @@ import { useState } from "react"
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
 import { toast } from "sonner"
 import Loading from "@/utils/Loading"
+import NotFount from "@/utils/NotFount"
 
 export default function AllParcel() {
     const [updateCurrentStatus, { isLoading: currentStatusLoading }] = useUpdateCurrentStatusMutation()
@@ -89,7 +90,7 @@ export default function AllParcel() {
             </div>
 
             {parcels.length === 0 ? (
-                <div className="text-center py-6">Not found parcels</div>
+                <NotFount data="parcels" href="" />
             ) : (
                 <div className="rounded-md border overflow-x-auto">
                     <Table className="min-w-[600px]">
@@ -208,37 +209,40 @@ export default function AllParcel() {
             )}
 
             {/* Pagination */}
-            <div className="mt-4 flex justify-center">
-                <Pagination>
-                    <PaginationContent className="flex items-center gap-2">
-                        <PaginationItem>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                disabled={page <= 1}
-                                onClick={() => setPage((p) => p - 1)}
-                            >
-                                <PaginationPrevious />
-                            </Button>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm">
-                                Page {meta?.page} of {meta?.totalPage}
-                            </span>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                disabled={page >= meta?.totalPage}
-                                onClick={() => setPage((p) => p + 1)}
-                            >
-                                <PaginationNext />
-                            </Button>
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
+            {
+                parcels?.length !== 0 && (
+                    <div className="mt-4 flex justify-center">
+                        <Pagination>
+                            <PaginationContent className="flex items-center gap-2">
+                                <PaginationItem>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        disabled={page <= 1}
+                                        onClick={() => setPage((p) => p - 1)}
+                                    >
+                                        <PaginationPrevious />
+                                    </Button>
+                                </PaginationItem>
+                                <PaginationItem>
+                                    <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm">
+                                        Page {meta?.page} of {meta?.totalPage}
+                                    </span>
+                                </PaginationItem>
+                                <PaginationItem>
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        disabled={page >= meta?.totalPage}
+                                        onClick={() => setPage((p) => p + 1)}
+                                    >
+                                        <PaginationNext />
+                                    </Button>
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                )}
         </div>
     )
 }

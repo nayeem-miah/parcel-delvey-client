@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card"
 import { useUserInfoQuery } from "@/redux/features/auth/authApi"
 import type { IUser } from "@/types"
-import { DetailItem } from "@/utils/Reusable"
+import { DetailItem } from "@/utils/DetailItem"
 import {
     Calendar,
     Mail,

@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useCancelParcelMutation, useMyParcelQuery } from "@/redux/features/parcel/parcelApi"
 import type { IParcel } from "@/types"
 import Loading from "@/utils/Loading"
+import NotFount from "@/utils/NotFount"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -59,7 +60,7 @@ export default function MyParcel() {
             </div>
 
             {parcels.length === 0 ? (
-                <div className="text-center py-6">Not found parcels</div>
+                <NotFount data="parcels" href="/sender/create-parcel" />
             ) : (
                 <div className="rounded-md border overflow-x-auto">
                     <Table className="min-w-[600px]">
@@ -181,38 +182,39 @@ export default function MyParcel() {
                 </div>
             )}
 
-            {/* Pagination */}
-            <div className="mt-4 flex justify-center">
-                <Pagination>
-                    <PaginationContent className="flex items-center gap-2">
-                        <PaginationItem>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                disabled={page <= 1}
-                                onClick={() => setPage((p) => p - 1)}
-                            >
-                                <PaginationPrevious />
-                            </Button>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm">
-                                Page {meta?.page} of {meta?.totalPage}
-                            </span>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                disabled={page >= meta?.totalPage}
-                                onClick={() => setPage((p) => p + 1)}
-                            >
-                                <PaginationNext />
-                            </Button>
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </div>
+            {parcels?.length !== 0 && (
+                <div className="mt-4 flex justify-center">
+                    <Pagination>
+                        <PaginationContent className="flex items-center gap-2">
+                            <PaginationItem>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={page <= 1}
+                                    onClick={() => setPage((p) => p - 1)}
+                                >
+                                    <PaginationPrevious />
+                                </Button>
+                            </PaginationItem>
+                            <PaginationItem>
+                                <span className="px-2 sm:px-3 py-1 text-xs sm:text-sm">
+                                    Page {meta?.page} of {meta?.totalPage}
+                                </span>
+                            </PaginationItem>
+                            <PaginationItem>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={page >= meta?.totalPage}
+                                    onClick={() => setPage((p) => p + 1)}
+                                >
+                                    <PaginationNext />
+                                </Button>
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                </div>
+            )}
         </div>
     )
 }
