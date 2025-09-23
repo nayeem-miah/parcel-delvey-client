@@ -82,6 +82,9 @@ export function RegisterForm() {
         } catch (error: any) {
             console.log(error);
             toast.error(error?.data?.message || "something went wrong", { id: toastId })
+            if (error.data === "Network Error") {
+                toast.error(error.data, { id: toastId })
+            }
         }
     }
 

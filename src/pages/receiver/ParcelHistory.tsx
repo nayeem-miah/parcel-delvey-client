@@ -28,7 +28,7 @@ export default function ParcelHistory() {
             </div>
 
             {parcels.length === 0 ? (
-                <NotFount data="parcels" href="" />
+                <NotFount data="parcels" href="" message="sender create parcel" />
             ) : (
                 <div className="rounded-md border overflow-x-auto">
                     <Table className="min-w-[600px]">

@@ -57,7 +57,7 @@ const cardVariants = {
 export default function MissionVision() {
   return (
     <section className="py-10">
-      <div className="container mx-auto px-6 md:px-12 text-center">
+      <div className="container mx-auto px-2 text-center">
         <h2 className="text-3xl md:text-4xl font-extrabold mb-12">
           Our Mission & Vision
         </h2>
@@ -77,7 +77,7 @@ export default function MissionVision() {
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full px-2  h-48 object-cover"
                 />
                 <CardContent className="p-6 text-left">
                   <h3 className="text-xl font-semibold mb-2">{item.title}</h3>

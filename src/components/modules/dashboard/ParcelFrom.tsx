@@ -43,11 +43,11 @@ import { z } from "zod"
 const formSchema = z.object({
     type: z.string(),
     weight: z.string("Weight is required"),
-    senderPhone: z.string().optional(),
+    senderPhone: z.string(),
     receiver: z.string().nonempty("Receiver is required"),
     receiverPhone: z.string(),
-    expectedDeliveryDate: z.date().optional(),
-    deliveredAt: z.date().optional(),
+    expectedDeliveryDate: z.date(),
+    deliveredAt: z.date(),
 })
 
 type FormValues = z.infer<typeof formSchema>

@@ -44,6 +44,7 @@ export default function AllParcel() {
         refetchOnMountOrArgChange: true
     })
     const parcels = data?.data || []
+    console.log(parcels);
     const meta = data?.meta
     // console.log(parcels);
 
@@ -90,7 +91,7 @@ export default function AllParcel() {
             </div>
 
             {parcels.length === 0 ? (
-                <NotFount data="parcels" href="" />
+                <NotFount data="parcels" href="" message="sender create parcel" />
             ) : (
                 <div className="rounded-md border overflow-x-auto">
                     <Table className="min-w-[600px]">
@@ -158,16 +159,16 @@ export default function AllParcel() {
                                                     {/* Sender */}
                                                     <div>
                                                         <h4 className="font-semibold">Sender</h4>
-                                                        <p>{parcel.sender.name} ({parcel.sender.email})</p>
-                                                        <p>{parcel.sender.address}</p>
-                                                        <p>📞 {parcel.senderPhone}</p>
+                                                        <p>{parcel?.sender?.name} ({parcel?.sender?.email})</p>
+                                                        <p>{parcel?.sender?.address}</p>
+                                                        <p>📞 {parcel?.senderPhone}</p>
                                                     </div>
                                                     {/* Receiver */}
                                                     <div>
                                                         <h4 className="font-semibold">Receiver</h4>
-                                                        <p>{parcel.receiver.name} ({parcel.receiver.email})</p>
-                                                        <p>{parcel.receiver.address}</p>
-                                                        <p>📞 {parcel.receiverPhone}</p>
+                                                        <p>{parcel?.receiver?.name} ({parcel?.receiver?.email})</p>
+                                                        <p>{parcel?.receiver?.address}</p>
+                                                        <p>📞 {parcel?.receiverPhone}</p>
                                                     </div>
                                                     {/* Parcel Info */}
                                                     <div>

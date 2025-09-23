@@ -67,7 +67,7 @@ export default function FAQSection() {
     const currentFaqs = activeTab === "sender" ? senderFaqs : receiverFaqs
 
     return (
-        <section className="py-16  w-full ">
+        <section className="pt-16 pb-4 px-2  w-full ">
             <h2 className="text-center text-4xl md:text-5xl font-extrabold mb-8">
                 your Questions
             </h2>

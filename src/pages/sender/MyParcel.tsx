@@ -60,7 +60,7 @@ export default function MyParcel() {
             </div>
 
             {parcels.length === 0 ? (
-                <NotFount data="parcels" href="/sender/create-parcel" />
+                <NotFount data="parcels" href="/sender/create-parcel" message="create parcel" />
             ) : (
                 <div className="rounded-md border overflow-x-auto">
                     <Table className="min-w-[600px]">

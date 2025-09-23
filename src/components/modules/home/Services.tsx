@@ -27,7 +27,7 @@ const services = [
 
 export default function Services() {
     return (
-        <section className="py-10 ">
+        <section className="py-10 px-2">
             <div className=" text-center">
                 <motion.h2
                     initial={{ opacity: 0, y: -30 }}

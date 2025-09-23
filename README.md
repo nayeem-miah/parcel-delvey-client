@@ -145,8 +145,8 @@ npm run dev
 
 ## **Testing the App**
 
-* **Sender account**: [sender@example.com](mailto:sender@example.com) / password123
-* **Receiver account**: [receiver@example.com](mailto:receiver@example.com) / password123
+* **Sender account**: [sender@example.com](mailto:sender@example.com) / Pa$$w0rd!
+* **Receiver account**: [receiver@example.com](mailto:receiver@example.com) / Pa$$w0rd!
 * **Admin account**: [admin.parcel@gmail.com](mailto:admin.parcel@gmail.com) / Nayeem123$
 
 Test parcel creation, tracking, and dashboard functionalities for each role.
