@@ -9,7 +9,7 @@ type LoadingSkeletonProps = {
 };
 
 export default function Loading({
-    count = 10,
+    count = 15,
     width = "100%",
     height = 20,
     className = "",
