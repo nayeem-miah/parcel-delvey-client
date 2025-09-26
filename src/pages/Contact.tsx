@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label"; // ✅ Correct import
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 interface ContactProps {
   title?: string;
@@ -38,6 +39,10 @@ const Contact = ({
 }: ContactProps) => {
   return (
     <section>
+      <Helmet>
+        <title>Contact Us | GoParcel Delivery</title>
+        <meta name="description" content="Get in touch with our Parcel Delivery team for support, queries, or feedback." />
+      </Helmet>
       <div>
         <ContactBanner />
 

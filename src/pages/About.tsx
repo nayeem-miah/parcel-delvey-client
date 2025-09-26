@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import { useAchievementQuery } from "@/redux/features/parcel/parcelApi";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Helmet } from "react-helmet-async";
 
 interface AboutProps {
     title?: string;
@@ -65,6 +66,11 @@ const About = ({
 
     return (
         <section className="relative">
+
+            <Helmet>
+                <title>About Us | GoParcel Delivery</title>
+                <meta name="description" content="Learn more about Parcel Delivery, our mission, and why customers trust us." />
+            </Helmet>
             {/* Banner */}
             <div
                 className="relative h-[400px] md:h-[500px] lg:h-[600px] w-full bg-cover bg-center flex items-center justify-center"
