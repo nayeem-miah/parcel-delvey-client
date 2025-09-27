@@ -1,169 +1,169 @@
 
 # 📦 Parcel Delivery Frontend (React + Redux Toolkit + RTK Query)
 
----
+## 🚀 Project Overview  
+This is a **secure, role-based, and user-friendly frontend** for a **Parcel Delivery System** (similar to Pathao Courier or Sundarban), built with **React.js, Redux Toolkit, and RTK Query**.  
 
-## **Project Overview**
+It connects to the backend **Parcel Delivery API** and allows **Senders, Receivers, and Admins** to manage parcels and delivery records seamlessly.  
 
-This is a **secure, role-based, and user-friendly frontend** application for a **Parcel Delivery System** (similar to Pathao Courier or Sundarban) built using **React.js**, **Redux Toolkit**, and **RTK Query**.
-
-The app consumes the backend Parcel Delivery API to enable **Senders**, **Receivers**, and **Admins** to perform parcel operations and manage records seamlessly.
-
-**Key Features:**
-- Public landing pages: Home, About, Contact
-- Role-based dashboards for Senders, Receivers, and Admins
-- Parcel creation, tracking, and status management
-- Responsive and clean UI
-
----
-
-## live link: https://parcel-delevary-client.vercel.app
-
-## **Tech Stack**
-
-**Frontend:**
-- React.js + TypeScript
-- Redux Toolkit & RTK Query
-- Tailwind CSS
-- React Router v7
-
-**Backend (Integration):**
-- Node.js / Express.js
-- MongoDB / Mongoose
-- JWT + bcrypt (authentication)
+### ✨ Key Features
+- 🌍 Public pages: Home, About, Contact  
+- 🔐 Role-based dashboards (Sender, Receiver, Admin)  
+- 📦 Parcel creation, tracking, and status management  
+- 📱 Fully responsive and clean UI  
+- 📊 Data visualization with charts & overview cards  
+- ⚡ Optimized with lazy-loading and skeletons  
 
 ---
 
-## **Project Structure**
+## 🌐 Live Demo  
+🔗 [Parcel Delivery Client](https://parcel-delevary-client.vercel.app)
+
+---
+
+## 🛠 Tech Stack  
+
+**Frontend:**  
+- React.js + TypeScript  
+- Redux Toolkit & RTK Query  
+- Tailwind CSS  
+- React Router v7  
+
+**Backend (Integration):**  
+- Node.js / Express.js  
+- MongoDB / Mongoose  
+- JWT + bcrypt (Authentication)  
+
+---
+
+## 📂 Project Structure  
 
 ```
 
 src/
 ├─ assets/          # Images, icons, fonts
-├─ components/      # Reusable UI components (Tables, Buttons, Modals, etc.)
+├─ components/      # Reusable UI components
 ├─ constants/       # App-wide constants
 ├─ hooks/           # Custom React hooks
-├─ lib/             # API utilities or helper functions
-├─ pages/           # Route components (Home, About, Dashboard, etc.)
-├─ provider/        # Context or provider files
-├─ redux/           # Redux slices and RTK Query APIs
-├─ routes/          # Protected and public route handling
-├─ types/           # TypeScript type definitions
+├─ lib/             # API utilities or helpers
+├─ pages/           # Route components (Home, Dashboard, etc.)
+├─ provider/        # Context/Provider files
+├─ redux/           # Redux slices & RTK Query APIs
+├─ routes/          # Protected & public route handling
+├─ types/           # TypeScript definitions
 ├─ utils/           # Utility functions
 ├─ App.tsx          # Main React component
 ├─ main.tsx         # App entry point
-├─ index.css        # Global styling
+├─ index.css        # Global styles
 
 ````
 
 ---
 
-## **Minimum Functional Requirements**
+## ✅ Minimum Functional Requirements  
 
-### 1️⃣ Public Pages
-- Home, About, Contact
-- Responsive and professional UI
+### 1️⃣ Public Pages  
+- Home, About, Contact  
+- Responsive & professional UI  
 
-### 2️⃣ Authentication
-- Registration (Sender / Receiver roles)
-- Login with JWT
-- Role-based redirection
-- Persisted authentication
-- Logout functionality
+### 2️⃣ Authentication  
+- Register (Sender / Receiver)  
+- Login with JWT  
+- Role-based redirection  
+- Persisted authentication  
+- Logout functionality  
 
-### 3️⃣ Dashboards
-**Sender Dashboard**
-- Create and manage parcels
-- Cancel parcels
-- View parcel status history
+### 3️⃣ Dashboards  
 
-**Receiver Dashboard**
-- View incoming parcels
-- Confirm delivery
-- Delivery history
+**Sender Dashboard**  
+- Create/manage parcels  
+- Cancel parcels  
+- View parcel history  
 
-**Admin Dashboard**
-- View & manage users (block/unblock)
-- Manage all parcels
-- Assign delivery personnel (optional)
+**Receiver Dashboard**  
+- View incoming parcels  
+- Confirm delivery  
+- Delivery history  
 
-### 4️⃣ Parcel Tracking
-- Track parcels using a unique tracking ID
-- Display status logs (status, timestamp, updatedBy, note)
+**Admin Dashboard**  
+- Manage users (block/unblock)  
+- Manage all parcels  
+- Assign delivery personnel (optional)  
 
-### 5️⃣ General Features
-- Role-based navigation menus
-- Loading indicators & global error handling
-- Form validations & advanced filtering
-- Pagination for tables
-- Toast notifications for feedback
-- Data visualization: overview cards & charts
-- Status timeline for parcel updates
+### 4️⃣ Parcel Tracking  
+- Track via unique tracking ID  
+- Show status logs (status, timestamp, updatedBy, note)  
 
----
-
-## **UI/UX Considerations**
-- Fully responsive across devices
-- Clean typography, consistent spacing, and color contrast
-- Performance optimization with lazy-loading and skeletons
-- Realistic data usage for professional finish
+### 5️⃣ General Features  
+- Role-based navigation menus  
+- Loading indicators & global error handling  
+- Validations & advanced filtering  
+- Pagination for tables  
+- Toast notifications  
+- Charts & overview cards  
+- Parcel status timeline  
 
 ---
 
-## **Installation & Setup**
+## 🎨 UI/UX Considerations  
+- Fully responsive across devices  
+- Clean typography & consistent spacing  
+- High contrast color scheme  
+- Performance optimized (lazy-loading, skeletons)  
+- Realistic data for professional finish  
 
-1. Clone the repository:
+---
 
-```bash
-git clone https://github.com/nayeem-miah/parcel-delvey-client.git
-cd parcel-delvey-client
+## ⚙️ Installation & Setup  
+
+1. Clone repository:
+   ```bash
+   git clone https://github.com/nayeem-miah/parcel-delvey-client.git
+   cd parcel-delvey-client
 ````
 
 2. Install dependencies:
 
-```bash
-bun add
-# or
-npm install
-```
+   ```bash
+   bun install   # or npm install
+   ```
 
-3. Set up environment variables:
+3. Configure environment variables (`.env`):
 
-```env
-VITE_API_BASE_URL=<your_backend_api_url>
-```
+   ```env
+   VITE_API_BASE_URL=<your_backend_api_url>
+   ```
 
-4. Run the development server:
+4. Start development server:
 
-```bash
-bun dev
-# or
-npm run dev
-```
+   ```bash
+   bun dev   # or npm run dev
+   ```
 
 ---
 
-## **Testing the App**
+## 🧪 Testing the App
 
-* **Sender account**: [sender@example.com](mailto:sender@example.com) / Pa$$w0rd!
-* **Receiver account**: [receiver@example.com](mailto:receiver@example.com) / Pa$$w0rd!
-* **Admin account**: [admin.parcel@gmail.com](mailto:admin.parcel@gmail.com) / Nayeem123$
+🔑 Use demo accounts for quick testing:
 
-Test parcel creation, tracking, and dashboard functionalities for each role.
+* **Sender** → `sender@example.com` / `Pa$$w0rd!`
+* **Receiver** → `receiver@example.com` / `Pa$$w0rd!`
+* **Admin** → `admin.parcel@gmail.com` / `Nayeem123$`
 
+---
 
-## **Contributing**
+## 🤝 Contributing
 
-1. Fork the repository
-2. Create a new branch: `git checkout -b feature/your-feature`
-3. Commit your changes: `git commit -m "Add some feature"`
-4. Push to the branch: `git push origin feature/your-feature`
+1. Fork the repo
+2. Create a new branch → `git checkout -b feature/your-feature`
+3. Commit changes → `git commit -m "Add some feature"`
+4. Push branch → `git push origin feature/your-feature`
 5. Open a Pull Request
 
 ---
 
-## **License**
+## 📜 License
 
-MIT License © 2025
+MIT License © 2025 [MD Nayeem Miah](https://github.com/nayeem-miah)
 
 ```
