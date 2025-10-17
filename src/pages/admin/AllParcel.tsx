@@ -230,7 +230,7 @@ export default function AllParcel() {
                                         Page {meta?.page} of {meta?.totalPage}
                                     </span>
                                 </PaginationItem>
-                                <PaginationItem>
+                                <>
                                     <Button
                                         variant="outline"
                                         size="sm"
@@ -239,7 +239,7 @@ export default function AllParcel() {
                                     >
                                         <PaginationNext />
                                     </Button>
-                                </PaginationItem>
+                                </>
                             </PaginationContent>
                         </Pagination>
                     </div>

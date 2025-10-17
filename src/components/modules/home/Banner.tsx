@@ -6,7 +6,7 @@ import b8 from "../../../assets/b8.jpg";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUserInfoQuery } from "@/redux/features/auth/authApi";
-import Loading from "@/utils/Loading";
+import BannerSkeleton from "@/utils/BannerSkeleton";
 
 const images = [b6, b7, b8];
 
@@ -23,7 +23,7 @@ export default function Banner() {
         return () => clearInterval(timer);
     }, []);
 
-    if (isLoading) return <Loading />
+    if (isLoading) return <BannerSkeleton />
 
     return (
         <section className="relative w-full min-h-[90vh] flex items-center overflow-hidden bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
